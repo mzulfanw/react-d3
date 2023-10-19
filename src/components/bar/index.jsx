@@ -92,7 +92,7 @@ const Bar = ({withTooltip, title}) => {
     tooltip.style('left', event.pageX + 18 + 'px')
       .style('top', event.pageY + 18 + 'px')
       .style('display', 'block')
-      .html(`kebutuhan : ${d.food} ${<br/>} harga : ${d.value}`);
+      .html(`kebutuhan : ${d.food} <br/> harga : ${d.value}`);
 
     // Optional cursor change on target
     d3.select(event.target).style('cursor', 'pointer');
