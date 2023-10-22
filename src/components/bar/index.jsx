@@ -7,17 +7,8 @@ import PropTypes from 'prop-types';
  * @returns {JSX.Element}
  * @constructor
  */
-const Bar = ({withTooltip, title}) => {
-
+const Bar = ({withTooltip, title, data}) => {
   const barRef = useRef(null);
-  const data = [
-    {food: 'Kupat tahu', value: 15000},
-    {food: 'karedok lenca', value: 30000},
-    {food: 'rokok magnum', value: 25000},
-    {food: 'kopi hitam', value: 3000},
-    {food: 'Josu', value: 6000},
-    {food: 'Ayam geprek', value: 15000}
-  ];
   const config = {
     width: 600,
     height: 300,
@@ -31,13 +22,15 @@ const Bar = ({withTooltip, title}) => {
     const xScale = d3.scaleBand()
       .domain(d3.groupSort(data, ([d]) => -d.value, (d) => d.food)) // descending frequency
       .range([config.margin.left, config.width - config.margin.right])
-      .padding(0.1);
+      .padding(0.5);
 
     // defined yScale
-    console.log(d3.max(data, (d) => d.value));
     const yScale = d3.scaleLinear()
       .domain([0, d3.max(data, (d) => d.value)])
       .range([config.height - config.margin.bottom, config.margin.top]);
+
+    // Clean up existing chart elements
+    d3.select(barRef.current).selectAll('*').remove();
 
     // create svg
     const svg = d3.select(barRef.current)
@@ -121,13 +114,14 @@ const Bar = ({withTooltip, title}) => {
   useEffect(() => {
     _renderChart();
     // eslint-disable-next-line
-    }, []);
+    }, [data]);
   return <svg ref={barRef}></svg>;
 };
 
 Bar.propTypes = {
   withTooltip: PropTypes.bool,
-  title: PropTypes.string
+  title: PropTypes.string,
+  data: PropTypes.array
 };
 
 export default Bar;

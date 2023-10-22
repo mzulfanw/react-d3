@@ -1,13 +1,29 @@
 import Main from '../../components/layout/Main.jsx';
 
+import {useNavigate} from 'react-router-dom';
+
 import {CollectionStyled, CollectionHeadStyled} from './homepage.styled.js';
 import Bar from '../../components/bar/index.jsx';
 
+import * as barData from '../../components/bar/data.json';
+
 const Homepage = () => {
+  const navigate = useNavigate();
 
   const components = [
-    {title: 'Bar Chart', component: <Bar withTooltip={true} title='Most bought of the year'/>}
+    {
+      title: 'Bar Chart',
+      Component: Bar,
+      key: 'bar',
+      data: barData.default,
+      withTooltip: true,
+      titleYLabel: 'Most bought of the year'
+    },
   ];
+
+  const handleComponentRoute = (key) => {
+    navigate(`/d3/${key}`);
+  };
 
   return (
     <Main>
@@ -21,8 +37,8 @@ const Homepage = () => {
       </CollectionHeadStyled>
       <CollectionStyled>
         {components.map((value, index) => (
-          <div key={index} className='collection-child'>
-            {value.component}
+          <div key={index} className='collection-child' onClick={() => handleComponentRoute(value.key)}>
+            <value.Component data={value.data} withTooltip={value.withTooltip} title={value.title}/>
             <h3 className='title '><span className='underline--magical'>{value.title}</span></h3>
           </div>
         ))}

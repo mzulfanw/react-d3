@@ -10,6 +10,7 @@ export const CollectionStyled = styled.div`
     border: 2px solid #525C69;
     border-radius: 6px;
     padding: 30px 30px;
+    cursor: pointer;
 
     .title {
       font-size: 20px;
